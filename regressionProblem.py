@@ -41,3 +41,10 @@ train_stats.pop("MPG") #Pop removes the category or index we give, and we need t
 train_stats = train_stats.transpose()
 print(train_stats)
 
+train_labels = train_dataset.pop("MPG")
+test_labels = test_dataset.pop("MPG") #Not sure what these two lines do. Wouldn't the labels and the data be separate entirely?
+
+def norm(x):
+	return (x-train_stats['mean'])/train_stats['std']
+normed_train_data = norm(train_dataset)
+normed_test_data = norm(test_dataset)
