@@ -73,7 +73,7 @@ print(model.predict(example_batch)) #Testing a batch of inputs on the untrained 
 class PrintDot(keras.callbacks.Callback):
 	def on_epoch_end(self, epoch, logs):
 		if(epoch%100==0): print('')
-		print('.', end=' ')
+		print('.', end='')
 
 history = model.fit(normed_train_data, train_labels, epochs=1000, validation_split=.2, verbose=0, callbacks=[early_stop, PrintDot()])
 
@@ -82,7 +82,7 @@ hist['epoch'] = history.epoch
 print(hist.tail())
 
 #Let's make a function to graph the trends of the error
-def plot_history(history):
+def plot_history():
 	plt.figure()
 	plt.xlabel('Epoch')
 	plt.ylabel('Mean Abs Error [MPG]')
@@ -101,7 +101,7 @@ def plot_history(history):
 	plt.legend()
 	plt.show()
 
-plot_history(history)
+plot_history()
 
 loss, mae, mse = model.evaluate(normed_test_data, test_labels, verbose=0)
 
