@@ -64,6 +64,8 @@ def build_model(): #Not sure why you would put this block in a function. Maybe i
 model = build_model()
 #print(model.summary())
 
+early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=50)
+
 example_batch = normed_train_data[:10]
 example_result = model.predict(example_batch)
 print(model.predict(example_batch)) #Testing a batch of inputs on the untrained model to make sure it outputs the right shape.
@@ -73,7 +75,7 @@ class PrintDot(keras.callbacks.Callback):
 		if(epoch%100==0): print('')
 		print('.', end=' ')
 
-history = model.fit(normed_train_data, train_labels, epochs=1000, validation_split=.2, verbose=0, callbacks=[PrintDot()])
+history = model.fit(normed_train_data, train_labels, epochs=1000, validation_split=.2, verbose=0, callbacks=[early_stop, PrintDot()])
 
 hist = pd.DataFrame(history.history)
 hist['epoch'] = history.epoch
@@ -100,3 +102,7 @@ def plot_history(history):
 	plt.show()
 
 plot_history(history)
+
+loss, mae, mse = model.evaluate(normed_test_data, test_labels, verbose=0)
+
+print("Testing set Mean Abs Error: {:5.2f} MPG".format(mae))
